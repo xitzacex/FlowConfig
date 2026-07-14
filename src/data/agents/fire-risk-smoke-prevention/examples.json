@@ -1,0 +1,13 @@
+{
+  "examples": [
+    {
+      "input": "An outdoor shelter with an ashtray is visible.",
+      "output": {
+        "smoke-facilities": "yes",
+        "smoke-facilities-comments": "A covered smoking shelter is present.",
+        "smoke-signage": "no",
+        "smoke-signage-comments": "No non-smoking signage is visible."
+      }
+    }
+  ]
+}

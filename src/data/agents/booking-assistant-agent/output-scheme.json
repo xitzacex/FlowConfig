@@ -1,0 +1,8 @@
+{
+  "booking": {
+    "customerName": "string",
+    "appointmentDate": "string",
+    "appointmentTime": "string",
+    "confirmed": "boolean"
+  }
+}

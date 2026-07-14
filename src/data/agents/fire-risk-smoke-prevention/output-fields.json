@@ -1,0 +1,28 @@
+{
+  "fields": [
+    {
+      "name": "smoke-facilities",
+      "description": "Are outdoor smoking facilities provided?",
+      "type": "yes/no",
+      "value": null
+    },
+    {
+      "name": "smoke-facilities-comments",
+      "description": "Comments on the smoking facilities",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "smoke-signage",
+      "description": "Is non-smoking signage visible?",
+      "type": "yes/no",
+      "value": null
+    },
+    {
+      "name": "smoke-signage-comments",
+      "description": "Comments on the smoking signage",
+      "type": "string",
+      "value": ""
+    }
+  ]
+}

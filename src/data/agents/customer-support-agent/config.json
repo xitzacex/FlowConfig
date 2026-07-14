@@ -1,0 +1,7 @@
+{
+  "name": "Customer Support Agent",
+  "version": "1.0.0",
+  "status": "draft",
+  "model": "demo-model",
+  "temperature": 0.3
+}

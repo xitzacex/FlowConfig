@@ -1,0 +1,7 @@
+{
+  "name": "Fire Risk Smoke Prevention",
+  "version": "1.0.0",
+  "status": "draft",
+  "model": "demo-vision-model",
+  "temperature": 0.1
+}

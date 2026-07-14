@@ -1,0 +1,12 @@
+{
+  "tools": [
+    {
+      "name": "searchKnowledgeBase",
+      "enabled": true
+    },
+    {
+      "name": "escalateToHuman",
+      "enabled": true
+    }
+  ]
+}
