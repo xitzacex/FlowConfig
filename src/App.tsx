@@ -1,8 +1,4 @@
 import AppLayout from "./components/layout/AppLayout";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 
-function App() {
-  // I keep App simple because AppLayout is responsible for the shared page structure.
-  return <AppLayout />;
-}
-
-export default App;
+export default function App() { return <ErrorBoundary><AppLayout /></ErrorBoundary>; }

@@ -1,0 +1,4 @@
+.app-header { z-index:5; min-width:0; display:flex; align-items:center; justify-content:space-between; padding:0 24px; background:var(--navy-950); color:#fff; border-bottom:1px solid #263247; }
+.header-brand { display:flex; align-items:center; gap:11px; }.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#3b82f6,#6d5ce7);font-weight:900;font-size:18px}
+.header-brand h1{margin:0;font-size:17px;line-height:1.2;letter-spacing:-.01em}.header-brand p{margin:2px 0 0;color:#8794a9;font-size:11px}
+.header-status{display:flex;align-items:center;gap:7px;color:#9ba8bb;font-size:12px}.status-dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 3px rgb(52 211 153 / 12%)}.header-version{padding-left:10px;margin-left:6px;border-left:1px solid #344055;color:#748197}

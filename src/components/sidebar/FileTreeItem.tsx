@@ -1,49 +1,12 @@
-import type { AgentFile } from "../../types/agent";
+import type { AgentFileSummary } from "../../types/agent";
 
-/*
- * FileTreeItem displays one file and reports when
- * the user selects it.
- */
-interface FileTreeItemProps {
-  file: AgentFile;
-  selectedFileId?: string;
-  onFileSelect: (file: AgentFile) => void;
-}
+interface Props { file: AgentFileSummary; selectedFileId?: string; onFileSelect: (file: AgentFileSummary) => void; }
 
-function FileTreeItem({
-  file,
-  selectedFileId,
-  onFileSelect,
-}: FileTreeItemProps) {
-  // Compare IDs to work out whether this file is active.
-  const isSelected = selectedFileId === file.id;
-
-  // Markdown and JSON use different short labels.
-  const fileTypeLabel = file.type === "markdown" ? "MD" : "{}";
-
-  // Pass the selected file back up to AppLayout.
-  function handleFileClick() {
-    onFileSelect(file);
-  }
-
+export default function FileTreeItem({ file, selectedFileId, onFileSelect }: Props) {
   return (
-    <button
-      className={`file-tree-item ${
-        isSelected ? "file-tree-item-active" : ""
-      }`}
-      type="button"
-      onClick={handleFileClick}
-    >
-      <span
-        className={`file-type-icon file-type-icon-${file.type}`}
-        aria-hidden="true"
-      >
-        {fileTypeLabel}
-      </span>
-
+    <button className={`file-tree-item ${selectedFileId === file.id ? "file-tree-item-active" : ""}`} type="button" onClick={() => onFileSelect(file)} title={file.name} aria-current={selectedFileId === file.id ? "page" : undefined}>
+      <span className={`file-type-icon file-type-icon-${file.fileType}`} aria-hidden="true">{file.fileType === "markdown" ? "MD" : "{}"}</span>
       <span className="file-tree-name">{file.name}</span>
     </button>
   );
 }
-
-export default FileTreeItem;

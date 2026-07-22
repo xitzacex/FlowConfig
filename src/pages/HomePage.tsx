@@ -1,41 +1,14 @@
-function HomePage() {
-  return (
-    <main className="home-page">
-      {/* This section introduces the user to the purpose of FlowConfig. */}
-      <section className="home-hero">
-        <p className="home-label">AgentFlow configuration</p>
+import type { Agent, AgentFileSummary } from "../types/agent";
 
-        <h2>Welcome to FlowConfig</h2>
+interface Props { agents: Agent[]; recentFiles: AgentFileSummary[]; onOpen: (file: AgentFileSummary) => void; onUpload: () => void; }
 
-        <p className="home-description">
-          Browse, edit and validate the Markdown and JSON files used to
-          configure custom AI agents.
-        </p>
-
-        <button className="primary-button" type="button">
-          Browse agents
-        </button>
-      </section>
-
-      {/* These cards give the homepage some useful summary information. */}
-      <section className="summary-grid">
-        <article className="summary-card">
-          <p>Agents</p>
-          <strong>3</strong>
-        </article>
-
-        <article className="summary-card">
-          <p>Markdown files</p>
-          <strong>4</strong>
-        </article>
-
-        <article className="summary-card">
-          <p>JSON files</p>
-          <strong>6</strong>
-        </article>
-      </section>
-    </main>
-  );
+export default function HomePage({ agents, recentFiles, onOpen, onUpload }: Props) {
+  const files = agents.flatMap((agent) => agent.files); const markdown = files.filter((file) => file.fileType === "markdown").length;
+  return <main className="home-page">
+    <section className="home-hero"><div><p className="eyebrow">Configuration control centre</p><h2>Build better agents,<br /><span>one file at a time.</span></h2><p className="home-description">Browse, edit and validate the Markdown prompts and JSON configuration that power your AI agents.</p><div className="home-actions"><button className="primary-button" type="button" onClick={() => agents[0]?.files[0] && onOpen(agents[0].files[0])}>Open first agent <span aria-hidden="true">→</span></button><button className="secondary-button" type="button" onClick={onUpload}>Upload file</button></div></div><div className="hero-code" aria-hidden="true"><div className="code-window-bar"><i /><i /><i /><span>system-prompt.md</span></div><pre><span className="code-blue"># Customer Support Agent</span>{"\n\n"}<span className="code-muted">## Role</span>{"\n"}You are a helpful support specialist. {"\n\n"}<span className="code-purple">## Output Format</span>{"\n"}- Be concise{"\n"}- Include next steps<span className="code-cursor">▋</span></pre></div></section>
+    <section className="stat-grid" aria-label="Workspace totals"><article><span className="stat-icon stat-agents">◇</span><div><strong>{agents.length}</strong><span>Agents</span></div></article><article><span className="stat-icon stat-files">▱</span><div><strong>{files.length}</strong><span>Total files</span></div></article><article><span className="stat-icon stat-md">M↓</span><div><strong>{markdown}</strong><span>Markdown</span></div></article><article><span className="stat-icon stat-json">{`{ }`}</span><div><strong>{files.length - markdown}</strong><span>JSON</span></div></article></section>
+    <div className="home-columns"><section><div className="section-title"><div><p className="eyebrow">Your workspace</p><h3>Agent configurations</h3></div></div><div className="agent-card-grid">{agents.map((agent) => <article className="agent-card" key={agent.id}><div className="agent-card-top"><span className="agent-avatar">{agent.name.slice(0, 2).toUpperCase()}</span><span className="draft-badge">{agent.status}</span></div><h4>{agent.name}</h4><p>{agent.description}</p><div className="agent-card-meta"><span>{agent.files.length} files</span><span>v{agent.version}</span></div><button type="button" onClick={() => agent.files[0] && onOpen(agent.files[0])}>Open configuration <span aria-hidden="true">→</span></button></article>)}</div></section>
+      <aside className="recent-panel"><div className="section-title"><div><p className="eyebrow">Continue working</p><h3>Recently opened</h3></div></div>{recentFiles.length ? <div className="recent-list">{recentFiles.map((file) => <button key={file.id} type="button" onClick={() => onOpen(file)}><span className={`recent-icon ${file.fileType}`}>{file.fileType === "json" ? "{}" : "MD"}</span><span><strong>{file.name}</strong><small>{agents.find((agent) => agent.id === file.agentId)?.name}</small></span><i aria-hidden="true">›</i></button>)}</div> : <p className="recent-empty">Files you open will appear here for quick access.</p>}</aside>
+    </div>
+  </main>;
 }
-
-export default HomePage;

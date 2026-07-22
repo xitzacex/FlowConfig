@@ -1,44 +1,5 @@
-import type { AgentFile } from "../../types/agent";
+import type { Agent, AgentFileSummary, SaveStatus } from "../../types/agent";
 
-interface EditorHeaderProps {
-  file: AgentFile;
-}
-
-// Shows the open filename, file details and main file actions.
-function EditorHeader({ file }: EditorHeaderProps) {
-  const readableType =
-    file.type === "markdown" ? "Markdown" : "JSON";
-
-  return (
-    <header className="editor-file-header">
-      <div className="editor-file-information">
-        <h2>{file.name}</h2>
-
-        <p>
-          {readableType}
-          <span aria-hidden="true"> • </span>
-          {file.path}
-        </p>
-      </div>
-
-      <div className="editor-header-actions">
-        <button className="editor-action-button" type="button">
-          Save
-        </button>
-
-        <button className="editor-action-button" type="button">
-          Reset
-        </button>
-
-        <button
-          className="editor-action-button editor-action-button-primary"
-          type="button"
-        >
-          Export
-        </button>
-      </div>
-    </header>
-  );
-}
-
-export default EditorHeader;
+interface Props { file: AgentFileSummary; agent?: Agent; status: SaveStatus; canSave: boolean; onSave: () => void; onReset: () => void; onExport: () => void; }
+const labels: Record<SaveStatus, string> = { saved: "Saved", unsaved: "Unsaved changes", saving: "Saving…", error: "Save failed" };
+export default function EditorHeader({ file, agent, status, canSave, onSave, onReset, onExport }: Props) { return <header className="editor-file-header"><div className="editor-file-information"><div className="file-title-row"><span className={`large-file-icon ${file.fileType}`}>{file.fileType === "json" ? "{}" : "MD"}</span><div><p className="editor-breadcrumb">{agent?.name ?? "Agent"} <span>/</span> {file.name}</p><h2>{file.name}</h2></div></div><div className="editor-meta"><span>{file.fileType === "markdown" ? "Markdown" : "JSON"}</span><span>{file.relativePath}</span><span className={`save-indicator save-${status}`} role="status"><i />{labels[status]}</span></div></div><div className="editor-header-actions"><button className="editor-action-button" type="button" onClick={onReset}>↺ Reset</button><button className="editor-action-button" type="button" onClick={onExport}>⇩ Export</button><button className="editor-action-button editor-action-button-primary" type="button" onClick={onSave} disabled={!canSave}>{status === "saving" ? "Saving…" : "Save changes"}</button></div></header>; }

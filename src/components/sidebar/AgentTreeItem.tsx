@@ -1,60 +1,19 @@
 import { useState } from "react";
-import type { Agent, AgentFile } from "../../types/agent";
+import type { Agent, AgentFileSummary } from "../../types/agent";
 import FileTreeItem from "./FileTreeItem";
 
-/*
- * AgentTreeItem displays one agent and controls whether
- * its file list is expanded or collapsed.
- */
-interface AgentTreeItemProps {
-  agent: Agent;
-  selectedFileId?: string;
-  onFileSelect: (file: AgentFile) => void;
-}
+interface Props { agent: Agent; files: AgentFileSummary[]; selectedFileId?: string; forceExpanded: boolean; onFileSelect: (file: AgentFileSummary) => void; }
 
-function AgentTreeItem({
-  agent,
-  selectedFileId,
-  onFileSelect,
-}: AgentTreeItemProps) {
-  // Each agent keeps its own open/closed state.
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Flips the current state whenever the agent row is clicked.
-  function handleToggleAgent() {
-    setIsExpanded((previousValue) => !previousValue);
-  }
-
+export default function AgentTreeItem({ agent, files, selectedFileId, forceExpanded, onFileSelect }: Props) {
+  const [expanded, setExpanded] = useState(files.some((file) => file.id === selectedFileId));
+  const isExpanded = forceExpanded || expanded || files.some((file) => file.id === selectedFileId);
   return (
     <div className="agent-tree-item">
-      <button
-        className="agent-tree-button"
-        type="button"
-        onClick={handleToggleAgent}
-        aria-expanded={isExpanded}
-      >
-        <span className="agent-tree-arrow" aria-hidden="true">
-          {isExpanded ? "▼" : "▶"}
-        </span>
-
-        <span className="agent-tree-name">{agent.name}</span>
+      <button className="agent-tree-button" type="button" onClick={() => setExpanded((value) => !value)} aria-expanded={isExpanded}>
+        <span className="agent-tree-arrow" aria-hidden="true">{isExpanded ? "▾" : "▸"}</span>
+        <span className="agent-tree-name" title={agent.name}>{agent.name}</span><span className="agent-file-count">{agent.files.length}</span>
       </button>
-
-      {/* The files only render while this agent is expanded. */}
-      {isExpanded && (
-        <div className="agent-file-list">
-          {agent.files.map((file) => (
-            <FileTreeItem
-              key={file.id}
-              file={file}
-              selectedFileId={selectedFileId}
-              onFileSelect={onFileSelect}
-            />
-          ))}
-        </div>
-      )}
+      {isExpanded && <div className="agent-file-list">{files.map((file) => <FileTreeItem key={file.id} file={file} selectedFileId={selectedFileId} onFileSelect={onFileSelect} />)}</div>}
     </div>
   );
 }
-
-export default AgentTreeItem;
